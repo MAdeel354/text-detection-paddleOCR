@@ -1,0 +1,30 @@
+# Use official Python slim image
+FROM python:3.10-slim
+
+# Set working directory inside container
+WORKDIR /app
+
+# Install system dependencies for PDF conversion (poppler-utils) and image handling
+RUN apt-get update && apt-get install -y \
+    poppler-utils \
+    tesseract-ocr \
+    libgl1-mesa-glx \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements.txt first (assumes you have one)
+COPY requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy app code
+COPY . .
+
+# Create upload and output folders with proper permissions
+RUN mkdir -p uploads output_images
+
+# Expose port FastAPI runs on (default 8000)
+EXPOSE 5000
+
+# Run the app with uvicorn
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"]
