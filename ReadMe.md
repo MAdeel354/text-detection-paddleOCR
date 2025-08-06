@@ -40,3 +40,5 @@ The system is built with a **two-tier architecture**:
 | OCR Engine    | PaddleOCR                 |
 | Database      | MongoDB                   |
 | Container     | Docker                    |
+
+For results screenshots see "Results" directory.
